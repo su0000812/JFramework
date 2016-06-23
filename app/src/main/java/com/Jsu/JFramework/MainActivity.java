@@ -20,6 +20,7 @@ import com.Jsu.framework.image.imageChooser.ChosenImage;
 import com.Jsu.framework.image.imageChooser.ChosenImages;
 import com.Jsu.framework.image.imageChooser.ImageChooserListener;
 import com.Jsu.framework.image.imageChooser.ImageChooserManager;
+import com.Jsu.framework.recyclerview.demo.TestRvActivity;
 import com.Jsu.framework.widget.wheel.CityPickerDialog;
 
 import java.io.File;
@@ -47,7 +48,8 @@ public class MainActivity extends AppCompatActivity implements ImageChooserListe
             public void onClick(View view) {
 //                chooseImage();
 //                testCircularReveal();
-                testWheelDialog();
+//                testWheelDialog();
+                startActivity(new Intent(MainActivity.this, TestRvActivity.class));
             }
         });
 

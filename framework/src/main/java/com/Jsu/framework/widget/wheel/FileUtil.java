@@ -1,6 +1,7 @@
 package com.Jsu.framework.widget.wheel;
 
 import android.content.Context;
+import android.os.Environment;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -549,4 +550,129 @@ public class FileUtil {
 		return true;
 	}
 
+
+	/**
+	 * 应用默认保存内容的文件夹
+	 */
+	public static String DEFAULT_SAVE_FOLDER = "Jsu";
+
+	/***
+	 * 获取本应用保存资源的文件夹的绝对路径
+	 */
+	public static String getAppResourcePath(Context context) {
+		String path = "";
+		if (path.equals("")) {
+
+			// 判断配置好的保存文件的路径
+
+			// 判断SD卡是否存在
+			if (checkSDCardExists()) {
+				String root = getSDRoot();
+				if (root != null && !root.equals("")) {
+					path = root + File.separator + DEFAULT_SAVE_FOLDER + File.separator;
+				} else {
+					path = context.getCacheDir().getAbsolutePath() + File.separator + DEFAULT_SAVE_FOLDER + File.separator;
+				}
+			} else {
+				path =  context.getCacheDir().getAbsolutePath() + File.separator + DEFAULT_SAVE_FOLDER + File.separator;
+			}
+
+			if (createPath(path) == PathStatus.ERROR) {
+				path =  context.getCacheDir().getAbsolutePath() + File.separator + DEFAULT_SAVE_FOLDER + File.separator;
+				if (createPath(path) == PathStatus.ERROR) {
+					//ToastBroadCastReceiver.sendToastMsg(.getString(R.string.msg_tost_init_folder_error) + " " + path);
+				}
+			}
+		}
+		return path;
+	}
+
+
+	/**
+	 * 获取SD卡的根目录
+	 */
+	private static String getSDRoot() {
+
+		File file = null;
+
+		try {
+			file = Environment.getExternalStorageDirectory();
+		} catch (Exception e) {
+
+		}
+		if (file != null) {
+			return file.getAbsolutePath();
+		}
+		return null;
+	}
+
+	/**
+	 * 创建目录
+	 */
+	private static PathStatus createPath(String newPath) {
+		if (!newPath.equals("")) {
+			File path = new File(newPath);
+			if (path.exists()) {
+				return PathStatus.EXITS;
+			}
+			if (path.mkdir()) {
+				return PathStatus.SUCCESS;
+			} else {
+				return PathStatus.ERROR;
+			}
+		}
+		return PathStatus.ERROR;
+	}
+
+	/**
+	 * 检查是否安装SD卡
+	 */
+	private static boolean checkSDCardExists() {
+		boolean status = false;
+		try {
+			String sDCardStatus = Environment.getExternalStorageState();
+			if (sDCardStatus.equals(Environment.MEDIA_MOUNTED)) {
+				status = true;
+			} else {
+				status = false;
+			}
+		} catch (Exception e) {
+
+		}
+		return status;
+	}
+
+	public static byte[] getByte(File file) {
+		byte[] bytes = null;
+		if (file != null) {
+			try {
+				InputStream is = new FileInputStream(file);
+				int length = (int) file.length();
+				if (length > Integer.MAX_VALUE) // 当文件的长度超过了int的最大值
+				{
+					System.out.println("this file is max ");
+					return null;
+				}
+				bytes = new byte[length];
+				int offset = 0;
+				int numRead = 0;
+				while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+					offset += numRead;
+				}
+				// 如果得到的字节长度和file实际的长度不一致就可能出错了
+				if (offset < bytes.length) {
+					System.out.println("file length is error");
+					return null;
+				}
+				is.close();
+			} catch (Exception e) {
+
+			}
+		}
+		return bytes;
+	}
+
+	public enum PathStatus {
+		SUCCESS, EXITS, ERROR
+	}
 }

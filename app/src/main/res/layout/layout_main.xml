@@ -4,13 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <com.Jsu.JFramework.TestProgress
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp" />
+
     <Button
         android:id="@+id/btn_choose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        android:padding="10dp"
         android:background="@drawable/click_drawable"
+        android:padding="10dp"
         android:text="Test Choose" />
 
     <com.Jsu.framework.material.RippleView
@@ -35,11 +40,27 @@
         android:id="@+id/img"
         android:layout_width="150dp"
         android:layout_height="150dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/img_thumb"
         android:layout_width="75dp"
         android:layout_height="75dp"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
+
+    <Button
+        android:id="@+id/btn_test_gesture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_margin="15dp"
+        android:text="Test Gesture" />
+
+    <Button
+        android:id="@+id/btn_test_anim"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Test Anim" />
 </LinearLayout>
